@@ -24,7 +24,7 @@ export default function FeaturedRow({ title, description, restaurants }) {
                 {restaurants.map((restaurant) => (
                     <RestaurantCard
                         item={restaurant}
-                        key={restaurant.id}
+                        key={restaurant._id}
                     />
                 ))}
             </ScrollView>
