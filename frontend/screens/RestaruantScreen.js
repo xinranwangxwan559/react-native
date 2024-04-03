@@ -9,6 +9,7 @@ import CardIcon from '../components/cardicon.js';
 import { StatusBar } from 'expo-status-bar';
 import { setRestaurant } from '../slices/restaurantSlice.js';
 import { useDispatch } from 'react-redux';
+import { urlFor } from '../sanity.js';
 
 
 
@@ -18,7 +19,7 @@ export default function RestaruantScreen() {
     let item = params;
     const dispatch = useDispatch();
     useEffect(() => {
-        if(item && item.id){
+        if(item && item._id){
             dispatch(setRestaurant({ ...item }));
         }
     }
@@ -32,7 +33,7 @@ export default function RestaruantScreen() {
             <ScrollView>
                 <View className="relative">
 
-                    <Image className="w-full h-72" source={item.image} />
+                    <Image className="w-full h-72" source={{uri: urlFor(item.image).url()}} />
                     <TouchableOpacity
                         onPress={() => navigation.goBack()}
                         className="absolute top-14 left-4 bg-gray-50 rounded-full sadow">
@@ -49,7 +50,7 @@ export default function RestaruantScreen() {
                                 <Image source={require('../assets/images/fullStar.png')} className="h-4 w-4" />
                                 <Text className="text-xs">
                                     <Text className="text-green-700">{item.stars}</Text>
-                                    <Text className="text-gray-700"> ({item.reviews} review)</Text> · <Text className="font-semibold text-gray-700">{item.category}</Text>
+                                    <Text className="text-gray-700"> ({item.reviews} review)</Text> · <Text className="font-semibold text-gray-700">{item?.type?.name}</Text>
                                 </Text>
                             </View>
                             <View className="flex-row items-center space-x-1" style={{ flex: 1, flexWrap: 'wrap' }}>

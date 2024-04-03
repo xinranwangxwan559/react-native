@@ -3,6 +3,7 @@ import { TouchableWithoutFeedback, View, Image, Text } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import { theme } from '../theme/index.js';
 import { useNavigation } from '@react-navigation/native';
+import { urlFor } from '../sanity.js';
 
 export default function RestaurantCard({ item }) {
 
@@ -16,7 +17,7 @@ const navigation = useNavigation();
 
         >
             <View style={{ shadowColor: theme.secondary, shadowRadius: 7 }} className="mr-6 bg-white rounded-3xl shadow-lg">
-                <Image className="h-36 w-64 rounded-t-3xl" source={item.image } />
+                <Image className="h-36 w-64 rounded-t-3xl" source={{uri: urlFor(item.image).url()} } />
 
                 <View className="px-3 pb-4 space-y-2">
 
@@ -25,7 +26,7 @@ const navigation = useNavigation();
                         <Image source={require('../assets/images/fullStar.png')} className="h-4 w-4" />
                         <Text className="text-xs">
                             <Text className="text-green-700">{item.stars}</Text>
-                            <Text className="text-gray-700"> ({item.reviews} review)</Text> · <Text className="font-semibold text-gray-700">{item.category}</Text>
+                            <Text className="text-gray-700"> ({item.reviews} review)</Text> · <Text className="font-semibold text-gray-700">{item?.type?.name}</Text>
                         </Text>
                     </View>
                     <View className="flex-row items-center space-x-1">

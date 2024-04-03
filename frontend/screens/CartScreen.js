@@ -11,6 +11,7 @@ import { selectCartItems, selectCartTotal } from "../slices/cartSlice.js";
 
 import { useDispatch } from "react-redux";
 import { removeFromCart } from "../slices/cartSlice.js";
+import { urlFor } from '../sanity.js';
 
 
 export default function CartScreen() {
@@ -25,13 +26,14 @@ export default function CartScreen() {
 
     useEffect(() => {
         const items = cartItems.reduce((group, item) => {
-            if (!group[item.id]) {
-                group[item.id] = [];
+            if (group[item._id]) { 
+                group[item._id].push(item);
+            } else {
+                group[item._id] = [item];
             }
-            group[item.id].push(item);
             return group;
         }, {});
-        setGroupedItems(items);
+        setGroupedItems(Object.values(items)); 
     }, [cartItems]);
     
 
@@ -80,11 +82,11 @@ export default function CartScreen() {
                                 <Text className="font-bold" style={{ color: theme.primary }}>
                                     {items.length}x
                                 </Text>
-                                <Image className="h-14 w-14 rounded-full" source={dish.image} />
+                                <Image className="h-14 w-14 rounded-full" source={{uri: urlFor(dish.image).url()}} />
                                 <Text className="flex-1 font-bold text-gray-700">{dish.name}</Text>
                                 <Text className="font-bold text-gray-700">${dish.price}</Text>
                                 <TouchableOpacity className="bg-gray-200 rounded-full p-2"
-                                    onPress={() => dispatch(removeFromCart({ id: dish.id }))}
+                                    onPress={() => dispatch(removeFromCart({ id: dish._id }))}
                                     style={{ backgroundColor: theme.primary }}>
                                     <Feather name="minus" size={20} color="white" />
                                 </TouchableOpacity>

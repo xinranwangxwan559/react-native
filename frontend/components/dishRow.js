@@ -5,23 +5,24 @@ import Feather from "react-native-vector-icons/Feather";
 import { addToCart, selectCartItemsById } from "../slices/cartSlice.js";
 import { removeFromCart } from "../slices/cartSlice.js";
 import { useDispatch, useSelector } from "react-redux";
+import { urlFor } from "../sanity.js";
 
 export default function DishRow({item}){
 
 const dispatch = useDispatch();
-const totalItems = useSelector((state) => selectCartItemsById(state, item.id));
+const totalItems = useSelector((state) => selectCartItemsById(state, item._id));
 
 const handleIncrease = () => {  
     dispatch(addToCart({ ...item}));
 }
 const handleDecrease = () => {
-    dispatch(removeFromCart({ id: item.id}));
+    dispatch(removeFromCart({ id: item._id}));
 }
     
 
 return (
 <View className="flex-row items-center bg-white px-3 rounded-3xl shadow-2xl mb-3 mx-2">
-    <Image className="rounded-3xl" style={{ width: 100, height: 100 }} source={item.image} />
+    <Image className="rounded-3xl" style={{ width: 100, height: 100 }} source={{uri: urlFor(item.image).url()}} />
     <View className="flex flex-1 space-y-3">
         <View className="pl-3">
             <Text className="text-xl">{item.name}</Text>
